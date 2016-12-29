@@ -5,8 +5,8 @@ After=lircd.service
 
 [Service]
 User=pi
-WorkingDirectory=/home/pi/irhttpd
-ExecStart=/home/pi/irhttpd/irhttpd.py
+WorkingDirectory=/home/pi/irhttp
+ExecStart=/home/pi/irhttp/irhttpd.py
 
 [Install]
 WantedBy=multi-user.target
