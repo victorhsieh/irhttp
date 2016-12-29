@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  .centerbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  button {
+    width: 10em;
+    height: 3em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    font-weight: bold;
+  }
+  .button-row {
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: center;
+  }
+  </style>
+</head>
+<body>
+  <h1>IR Controller</h1>
+  <div class="centerbox">
+    <div>
+      <div class="button-row">
+        <button onclick="send('power')">Power</button>
+        <button onclick="send('input')">Input</button>
+      </div>
+      <div class="button-row">
+        <button onclick="send('ch_up')">Channel +</button>
+        <button onclick="send('vol_up')">Volume +</button>
+      </div>
+      <div class="button-row">
+        <button onclick="send('ch_down')">Channel -</button>
+        <button onclick="send('vol_down')">Volume -</button>
+      </div>
+      <div class="button-row">
+        <button onclick="send('ok')">OK</button>
+        <button onclick="send('up')">⬆</button>
+        <button onclick="send('exit')">Exit</button>
+      </div>
+      <div class="button-row">
+        <button onclick="send('left')">⬅</button>
+        <button onclick="send('right')">➡</button>
+      </div>
+      <div class="button-row">
+        <button onclick="send('menu')">Menu</button>
+        <button onclick="send('down')">⬇</button>
+        <button onclick="send('dummy')">?</button>
+      </div>
+      <!--
+      <div class="button-row">
+        <button onclick="send('1')">1</button>
+        <button onclick="send('2')">2</button>
+        <button onclick="send('3')">3</button>
+      </div>
+      <div class="button-row">
+        <button onclick="send('4')">4</button>
+        <button onclick="send('5')">5</button>
+        <button onclick="send('6')">6</button>
+      </div>
+      <div class="button-row">
+        <button onclick="send('7')">7</button>
+        <button onclick="send('8')">8</button>
+        <button onclick="send('9')">9</button>
+      </div>
+      <div class="button-row">
+        <button onclick="send('0')">0</button>
+      </div>
+      -->
+    </div>
+  </div>
+  <script>
+    function send(button) {
+      var url = '//' + window.location.host + '/remote?name=vizio&key=' + button;
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, false /* means sync */);
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
