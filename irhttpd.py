@@ -13,34 +13,29 @@ from urllib.parse import urlparse, parse_qs
 
 PORT = 8000
 
+def _generate_mapping(*args, **kargs):
+  mapping = dict((name, 'KEY_' + name.upper()) for name in args)
+  mapping.update(kargs)
+  return mapping
+
 class IRHandler(http.server.BaseHTTPRequestHandler):
 
   key_table = {
-    'vizio': {
-      'power': 'KEY_POWER',
-      'menu': 'KEY_MENU',
-      'ch_up': 'KEY_CHANNELUP',
-      'ch_down': 'KEY_CHANNELDOWN',
-      'vol_up': 'KEY_VOLUMEUP',
-      'vol_down': 'KEY_VOLUMEDOWN',
-      '1': 'KEY_1',
-      '2': 'KEY_2',
-      '3': 'KEY_3',
-      '4': 'KEY_4',
-      '5': 'KEY_5',
-      '6': 'KEY_6',
-      '7': 'KEY_7',
-      '8': 'KEY_8',
-      '9': 'KEY_9',
-      '0': 'KEY_0',
-      'up': 'KEY_UP',
-      'down': 'KEY_DOWN',
-      'left': 'KEY_LEFT',
-      'right': 'KEY_RIGHT',
-      'ok': 'KEY_OK',
-      'exit': 'KEY_EXIT',
-      'input': 'KEY_VIDEO',
-    },
+      'vizio': _generate_mapping(
+        'power', 'menu', 'mute', 'ok', 'exit', 'info',
+        '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+        'up', 'down', 'left', 'right',
+        'stop', 'play', 'pause', 'forward', 'rewind',
+        'subtitle',
+
+        ch_up='KEY_CHANNELUP',
+        ch_down='KEY_CHANNELDOWN',
+        vol_up='KEY_VOLUMEUP',
+        vol_down='KEY_VOLUMEDOWN',
+        input='KEY_VIDEO',
+        apps='KEY_PROGRAM',
+        amazon='KEY_PROG1',
+        ),
   }
 
   def do_GET(self):
