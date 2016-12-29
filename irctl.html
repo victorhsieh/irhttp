@@ -27,60 +27,63 @@
   <div class="centerbox">
     <div>
       <div class="button-row">
-        <button onclick="send('power')">Power</button>
-        <button onclick="send('amazon')">Amazon</button>
-        <button onclick="send('input')">Input</button>
+        <button onclick="send('soundbar', 'power')">Soundbar Power</button>
+        <button onclick="send('vizio', 'power')">TV Power</button>
+        <button onclick="send('vizio', 'amazon')">Amazon</button>
+        <button onclick="send('vizio', 'input')">TV Input</button>
       </div>
       <div class="button-row">
-        <button onclick="send('vol_down')">Volume -</button>
-        <button onclick="send('vol_up')">Volume +</button>
+        <button onclick="send('vizio', 'vol_down')">Volume -</button>
+        <button onclick="send('vizio', 'vol_up')">Volume +</button>
+        <button onclick="send('soundbar', 'sw_down')">SW -</button>
+        <button onclick="send('soundbar', 'sw_up')">SW +</button>
       </div>
       <div class="button-row">
-        <button onclick="send('rewind')">&lt;&lt;</button>
-        <button onclick="send('stop')">◼</button>
-        <button onclick="send('play')">▶</button>
-        <button onclick="send('pause')">||</button>
-        <button onclick="send('forward')">&gt;&gt;</button>
+        <button onclick="send('vizio', 'rewind')">&lt;&lt;</button>
+        <button onclick="send('vizio', 'stop')">◼</button>
+        <button onclick="send('vizio', 'play')">▶</button>
+        <button onclick="send('vizio', 'pause')">||</button>
+        <button onclick="send('vizio', 'forward')">&gt;&gt;</button>
       </div>
       <div class="button-row">
-        <button onclick="send('ok')">OK</button>
-        <button onclick="send('up')">⬆</button>
-        <button onclick="send('exit')">Exit</button>
+        <button onclick="send('vizio', 'ok')">OK</button>
+        <button onclick="send('vizio', 'up')">⬆</button>
+        <button onclick="send('vizio', 'exit')">Exit</button>
       </div>
       <div class="button-row">
-        <button onclick="send('left')">⬅</button>
-        <button onclick="send('right')">➡</button>
+        <button onclick="send('vizio', 'left')">⬅</button>
+        <button onclick="send('vizio', 'right')">➡</button>
       </div>
       <div class="button-row">
-        <button onclick="send('menu')">Menu</button>
-        <button onclick="send('down')">⬇</button>
-        <button onclick="send('dummy')">?</button>
+        <button onclick="send('vizio', 'menu')">Menu</button>
+        <button onclick="send('vizio', 'down')">⬇</button>
+        <button onclick="send('vizio', 'dummy')">?</button>
       </div>
       <!--
       <div class="button-row">
-        <button onclick="send('1')">1</button>
-        <button onclick="send('2')">2</button>
-        <button onclick="send('3')">3</button>
+        <button onclick="send('vizio', '1')">1</button>
+        <button onclick="send('vizio', '2')">2</button>
+        <button onclick="send('vizio', '3')">3</button>
       </div>
       <div class="button-row">
-        <button onclick="send('4')">4</button>
-        <button onclick="send('5')">5</button>
-        <button onclick="send('6')">6</button>
+        <button onclick="send('vizio', '4')">4</button>
+        <button onclick="send('vizio', '5')">5</button>
+        <button onclick="send('vizio', '6')">6</button>
       </div>
       <div class="button-row">
-        <button onclick="send('7')">7</button>
-        <button onclick="send('8')">8</button>
-        <button onclick="send('9')">9</button>
+        <button onclick="send('vizio', '7')">7</button>
+        <button onclick="send('vizio', '8')">8</button>
+        <button onclick="send('vizio', '9')">9</button>
       </div>
       <div class="button-row">
-        <button onclick="send('0')">0</button>
+        <button onclick="send('vizio', '0')">0</button>
       </div>
       -->
     </div>
   </div>
   <script>
-    function send(button) {
-      var url = '//' + window.location.host + '/remote?name=vizio&key=' + button;
+    function send(remote, button) {
+      var url = '//' + window.location.host + '/remote?name=' + remote + '&key=' + button;
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url, false /* means sync */);
       xhr.send();

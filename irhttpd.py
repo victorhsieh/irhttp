@@ -36,6 +36,13 @@ class IRHandler(http.server.BaseHTTPRequestHandler):
         apps='KEY_PROGRAM',
         amazon='KEY_PROG1',
         ),
+      'soundbar': _generate_mapping(
+          'power',
+          vol_up='KEY_VOLUMEUP',
+          vol_down='KEY_VOLUMEDOWN',
+          sw_up='KEY_SCROLLUP',
+          sw_down='KEY_SCROLLDOWN',
+          ),
   }
 
   def do_GET(self):
