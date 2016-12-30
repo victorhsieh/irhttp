@@ -6,8 +6,9 @@ import mimetypes
 import os
 import shlex
 import shutil
-import sys
+import socketserver
 import subprocess
+import sys
 
 from http import HTTPStatus
 from urllib.parse import urlparse, parse_qs
@@ -80,6 +81,8 @@ class IRHandler(http.server.BaseHTTPRequestHandler):
       if not os.path.exists(local_path):
         self.send_error(HTTPStatus.NOT_FOUND, 'Not found')
       self.send_file(local_path)
+    else:
+      self.send_error(HTTPStatus.NOT_FOUND, 'Not found')
 
   def send_file(self, filepath):
     self.send_response(HTTPStatus.OK)
@@ -91,7 +94,10 @@ class IRHandler(http.server.BaseHTTPRequestHandler):
     with open(filepath, 'rb') as f:
       shutil.copyfileobj(f, self.wfile)
 
-httpd = http.server.HTTPServer(('', PORT), IRHandler)
+class ThreadedHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
+  pass
+
+httpd = ThreadedHTTPServer(('', PORT), IRHandler)
 print('irhttpd now serving at port', PORT)
 
 try:
