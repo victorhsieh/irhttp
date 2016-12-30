@@ -1,0 +1,13 @@
+{
+  "name": "Remotes",
+  "icons": [
+    {
+      "src": "remote.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

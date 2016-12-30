@@ -2,6 +2,7 @@
 
 import http.server
 import logging
+import mimetypes
 import os
 import shlex
 import shutil
@@ -46,10 +47,11 @@ class IRHandler(http.server.BaseHTTPRequestHandler):
   }
 
   def do_GET(self):
-    if '/' == self.path:
-      self.send_html('irctl.html')
-    elif self.path.startswith('/remote?'):
-      qs = parse_qs(urlparse(self.path).query)
+    path = os.path.normpath(self.path)
+    if '/' == path:
+      self.send_file('static/irctl.html')
+    elif path.startswith('/remote?'):
+      qs = parse_qs(urlparse(path).query)
       if not qs['key'] or not qs['name']:
         logging.error('invalid argument')
         self.send_error(HTTPStatus.BAD_REQUEST, 'Invalid argument')
@@ -73,12 +75,17 @@ class IRHandler(http.server.BaseHTTPRequestHandler):
         logging.error('irsend failed: ', e)
       self.send_response(HTTPStatus.NO_CONTENT)
       self.end_headers()
-    else:
-      self.send_error(HTTPStatus.NOT_FOUND, 'Not found')
+    elif path.startswith('/static/'):
+      local_path = path[1:]
+      if not os.path.exists(local_path):
+        self.send_error(HTTPStatus.NOT_FOUND, 'Not found')
+      self.send_file(local_path)
 
-  def send_html(self, filepath):
+  def send_file(self, filepath):
     self.send_response(HTTPStatus.OK)
-    self.send_header('Content-type', 'text/html')
+    mime, _ = mimetypes.guess_type(filepath)
+    assert mime is not None
+    self.send_header('Content-type', mime)
     self.send_header('Content-Length', str(os.stat(filepath)[6]))
     self.end_headers()
     with open(filepath, 'rb') as f:
