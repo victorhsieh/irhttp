@@ -81,8 +81,20 @@ class IRHandler(http.server.BaseHTTPRequestHandler):
       if not os.path.exists(local_path):
         self.send_error(HTTPStatus.NOT_FOUND, 'Not found')
       self.send_file(local_path)
+    elif path.startswith('/power'):
+      usage = subprocess.check_output('./current_usage.sh',
+          universal_newlines=True)
+      self.send_text(usage)
     else:
       self.send_error(HTTPStatus.NOT_FOUND, 'Not found')
+
+  def send_text(self, text):
+    byte_array = text.encode()
+    self.send_response(HTTPStatus.OK)
+    self.send_header('Content-type', 'text/plain')
+    self.send_header('Content-Length', len(byte_array))
+    self.end_headers()
+    self.wfile.write(byte_array)
 
   def send_file(self, filepath):
     self.send_response(HTTPStatus.OK)
@@ -101,6 +113,7 @@ httpd = ThreadedHTTPServer(('', PORT), IRHandler)
 print('irhttpd now serving at port', PORT)
 
 try:
+  logging.getLogger().setLevel(logging.DEBUG)
   httpd.serve_forever()
 except KeyboardInterrupt:
   print("\nKeyboard interrupt received, exiting.")
