@@ -82,9 +82,13 @@ class IRHandler(http.server.BaseHTTPRequestHandler):
         self.send_error(HTTPStatus.NOT_FOUND, 'Not found')
       self.send_file(local_path)
     elif path.startswith('/power'):
-      usage = subprocess.check_output('./current_usage.sh',
-          universal_newlines=True)
-      self.send_text(usage)
+      try:
+        usage = subprocess.check_output('./current_usage.sh',
+            universal_newlines=True)
+        self.send_text(usage)
+      except subprocess.CalledProcessError as e:
+        logging.error('current_usage: ' + str(e))
+        self.send_text('unknown')
     else:
       self.send_error(HTTPStatus.NOT_FOUND, 'Not found')
 
